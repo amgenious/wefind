@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    
+<style>
+  .form-control{
+    width: 280px;
+  }
+</style>
+{% if user.is_authenticated or user.is_superuser  %}
+
+<div style="padding-top: 10px;">
+<button type="button" style="width: 16rem;" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
+    Add skilled individual
+  </button>
+  
+
+  
+    
+    
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add skilled individual</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+
+
+        <div class="modal-body">
+            <form method="post" class="container mt-4" enctype="multipart/form-data">
+                {% csrf_token %}
+               {{form.as_p}}
+                <button style="padding: 0.1px 1px;" type="submit" class="btn btn-primary">Submit</button>
+              </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% else %}
+<p style="padding: 30px 0px 0px 30px;"> 
+<a href="{%url 'login' %}">Login to post profile</a>
+
+</p>
+{% endif %}
+
+  <div class="container" style="padding-top: 40px;" >
+    <div class="row">
+        <div class="col-md-3">
+   <div class="card" style="padding-left: 8rem;">
+                  <form method="GET" class="form-inline">
+                    <input type="text"  name="search_name" value="{{ search_name }}" class="form-control" placeholder="Search by name"><br>
+                    <input type="text" name="search_location" value="{{ search_location }}" class="form-control" placeholder="Search by location"><br>
+                    <select name="search_availability" class="form-control">
+                        <option value="" {% if not search_availability %}selected{% endif %}>All</option>
+                        <option value="Available" {% if search_availability == 'Available' %}selected{% endif %}>Available</option>
+                        <option value="Busy" {% if search_availability == 'Busy' %}selected{% endif %}>Busy</option>
+                    </select><br>
+                    <div class="form-group">
+                      <label for="search_region">Filter by region:</label>
+                      <select name="search_region" id="search_region" class="form-control">
+                          <option value="" {% if not search_region %}selected{% endif %} disabled>Filter by region</option>
+                          {% for region_value, region_label in form.fields.region.choices %}
+                              <option value="{{ region_value }}" {% if search_region == region_value %}selected{% endif %}>
+                                  {{ region_label }}
+                              </option>
+                          {% endfor %}
+                      </select>
+                  </div>
+                </div>
+                    <button style="padding: 3px 12px; padding-right: 120px;" type="submit" class="btn btn-primary">Search</button>
+                </form>
+                
+                {% for individual in obj %}
+                {% endfor %}
+                
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                {% for company in obj %}
+                {% if company.approved %}
+                {% if not location or company.location == location %}
+                {% if not service or company.services == service %}
+                {% if not availability or company.availability == availability %}
+                <div class="col-md-4">
+                  <a style="font-weight: 600;" href="{% url 'skilled_individual_details' company.id %}" >
+                       <div class="card">
+                      {% if company.sex == 'Male' %}
+                      <img class="flex-shrink-0 img-fluid border rounded" style="height: 12rem; width: 15rem; margin: 0px auto" src="{% static 'images/97.png' %}" alt="">
+                      {% else %}
+                      <img class="flex-shrink-0 img-fluid border rounded" style="height: 12rem;  width: 15rem; margin: 0px auto" src="{% static 'images/b.jpg' %}" alt="">
+                      {% endif %}
+                      <div class="card-body">
+                        <h5 class="card-title">{{ company.name }}</h5>
+                        <p><b>Services: </b>{{ company.services }}</p>
+                        <p><b>Region: </b>{{ company.region }}</p>
+                        <p><b>Location: </b>{{ company.location }}</p>
+                        <p><b>Status: </b>{% if company.availability == "Busy" %}<button style="padding: 1px 1px !important;" class="btn btn-danger">{{ company.availability }}
+                        </button>{% else %}<button style="padding: 1px 1px !important;" class="btn btn-success">{{ company.availability }}</button>{% endif %}</p>
+                      </div>
+                    </div><br>
+                  </a>
+
+                  </div>
+                  
+                {% endif %}
+                {% endif %}
+                {% endif %}
+                {% endif %}
+                {% empty %}
+                <p>Skilled personnel found </p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+
+  </body>
+</html>
+
+
+{% endblock  %}
+
+

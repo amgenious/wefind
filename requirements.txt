@@ -1,0 +1,10 @@
+Django
+Django_hitcount
+Pillow
+Folium
+Twilio
+BeautifulSoup4
+Geocoder
+Django_google_maps
+
+

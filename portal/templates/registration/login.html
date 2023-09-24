@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+    <div class=" bg-white">
+        <div class="form-content">
+                <h1>Login</h1>
+                {% for messages in messages %}
+{{messages}}
+{% endfor %}
+            <form method="post" action="">
+                {% csrf_token %}
+                <div style="padding-bottom: 9px;">
+                    <input type="text"  placeholder="Username" name="username" style="width: 350px; padding: 5px;"/>
+                  </div>
+                  <div style="padding-bottom: 9px; display: flex;">
+                    <input type="password" id="txtPassword"  placeholder="Password"  class="" name="password" style="width: 320px; padding: 5px;" />
+                    <button style="width: 32px; background-color: black; border-radius: 0px;" type="button" id="btnToggle" class="toggle"><i  id="eyeIcon" class="fa fa-eye "></i></button>
+                  </div>
+                <button style="width: 100px;">Login</button>
+                <div class="external-links" style="padding-top: 10px;">
+                    <p>Forgot password? <a href="{% url 'password_reset' %}">Reset Password</a> </p>
+                    <p>Don't have an account? <a href="{% url 'sign_up' %}">SignUp</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+<script>
+    let passwordInput = document.getElementById('txtPassword'),
+    toggle = document.getElementById('btnToggle'),
+    icon =  document.getElementById('eyeIcon');
+
+function togglePassword() {
+  if (passwordInput.type === 'password') {
+    passwordInput.type = 'text';
+    icon.classList.add("fa-eye-slash");
+    //toggle.innerHTML = 'hide';
+  } else {
+    passwordInput.type = 'password';
+    icon.classList.remove("fa-eye-slash");
+    //toggle.innerHTML = 'show';
+  }
+}
+
+function checkInput() {
+  //if (passwordInput.value === '') {
+  //toggle.style.display = 'none';
+  //toggle.innerHTML = 'show';
+  //  passwordInput.type = 'password';
+  //} else {
+  //  toggle.style.display = 'block';
+  //}
+}
+
+toggle.addEventListener('click', togglePassword, false);
+passwordInput.addEventListener('keyup', checkInput, false);
+</script>
+
+
+{% endblock %}

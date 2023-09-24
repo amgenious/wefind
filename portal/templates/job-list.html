@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+<style>
+    @media only screen and (min-width: 1000px) and (max-width: 3700px) {
+        .hgf {
+          width:50rem
+        }
+        .ds{
+            padding-top: 50px;
+        }
+    .fr{
+        padding-top: 100px;
+    }
+    }
+
+    @media only screen and (min-width: 2px) and (max-width: 550px) {
+      .fr{
+        margin: 0px auto;
+      }
+      .fe{
+        padding-top: 20px;
+      }
+    }
+</style>
+
+
+<div class="container-fluid ds">
+    <div class="row">
+        <div class="col-md-3">
+          <div class="my-content hgf">
+            <form method="GET" class="fr">
+            <h5 class="fe">Search a job post</h4>
+                <input style="margin-bottom: 5px" type="text" name="q" class="form-control" placeholder="Search by title" value="{{ request.GET.q }}">
+                <input style="margin-bottom: 5px" type="text" name="location" class="form-control" placeholder="Search by location" value="{{ request.GET.location }}">
+                   <select style="margin-bottom: 5px;" class="form-control" name="region">
+                       <option value="">All Regions</option>
+                       <option value="Ashanti">Ashanti Region</option>
+                       <option value="Brong">Brong Region</option>
+                       <option value="Central">Central Region</option>
+                       <option value="Eastern">Eastern Region</option>
+                       <option value="Greater_Accra">Greater Accra Region</option>
+                       <option value="Northern">Northern Region</option>
+                       <option value="Savannah">Savannah Region</option>
+                       <option value="North_east">North-East Region</option>
+                       <option value="Upper_east">Upper East Region</option>
+                       <option value="Bono_east">Bono East Region</option>
+                       <option value="Ahafo">Ahafo Region</option>
+                       <option value="Oti">Oti Region</option>
+                       <option value="Volta">Volta Region</option>
+                       <option value="Western">Western Region</option>
+                       <option value="Western_north">Western North Region</option>
+                       <option value="Upper_west">Upper West Region</option>
+                   </select>
+                   <button type="submit">Filter</button>
+               </form>
+               
+               
+                          </div>
+        </div>
+        <div class="col-md-9">
+          <div class="my-content">
+
+            <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.3s">
+                <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
+                    <li class="nav-item">
+                        <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active" data-bs-toggle="pill" href="#tab-1">
+                            <h6 class="mt-n1 mb-0">Home</h6>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="d-flex align-items-center text-start mx-3 me-0 pb-3" data-bs-toggle="pill" href="#tab-2">
+                            <h6 class="mt-n1 mb-0">Company</h6>
+                        </a>
+                    </li>
+                </ul>
+    
+                <div class="tab-content">
+                    <div id="tab-1" class="tab-pane fade show p-0 active">
+                        <div class="job-item p-4 mb-4">
+                            <div class="row g-4">
+                                {% if jobs %}
+                                {% for job in jobs %}
+                                    {% if job.approved  and job.job_for.name == 'Home' %}
+                                        <div class="col-lg-6">
+                                            <div class="row">
+                                                <a href="{% url 'job_detail' job.pk %}">  <div class="col-sm-12 col-md-12 d-flex align-items-center">
+                                                   <img id="tr" class="flex-shrink-0 img-fluid border rounded" src="{{ job.company_image.url }}" alt="" style="width: 80px; height: 80px;">
+                                                <div class="text-start ps-4">
+                                                    <h5 class="mb-3">{{ job.job_title }} 
+                                                    </h5>
+                                                    <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>{{ job.location }}</span>
+                                                    <span class="text-truncate me-3"><i class="fa fa-directions text-primary me-2"></i>{{ job.region }}</span>
+                                                    <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>{{ job.job_for }}</span>
+                                                    <span class="text-truncate me-3"><i class="fa fa-hourglass-end text-primary me-2"></i>{{ job.deadline.date }}</span><br>
+                                                </div>
+                                                </div></a>
+                                            </div>
+                                            <hr> </div>
+                                        {% endif %}
+                                        <style>
+                                            @media only screen and (min-width: 200px) and (max-width: 790px) {
+                                              #tr{
+                                                display: none;
+                                              }
+                                          .mb-3{
+                                            font-size: 14px;
+                                          }
+                                          .me-3{
+                                            font-size: 12px;
+                                          }
+                                          .fr{
+                                            width: 20rem;
+                                          }
+    
+                                          }
+    
+                                          </style>
+                                {% endfor %}
+                                  {% else %} 
+                            <h3>
+                            No job posting found...
+                            </h3>
+                                        {% endif %}
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div id="tab-2" class="tab-pane fade show p-0">
+                        <div class="job-item p-4 mb-4">
+                            <div class="row g-4">
+                                {% if jobs %}
+                                {% for job in jobs %}
+                                    {% if job.approved and job.job_for.name == 'Company' %}
+                                        <div class="col-lg-6">
+                                            <div class="row">
+                                                <a  href="{% url 'job_detail' job.pk %}">     <div class="col-sm-12 col-md-12 d-flex align-items-center">
+                                                 <img id="tr" class="flex-shrink-0 img-fluid border rounded" src="{{ job.company_image.url }}" alt="" style="width: 80px; height: 80px;">
+                                                <div class="text-start ps-4">
+                                                   <h5 class="mb-3">{{ job.job_title }}  
+                                                    </h5>
+                                                    <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>{{ job.location }}</span>
+                                                    <span class="text-truncate me-3"><i class="fa fa-directions text-primary me-2"></i>{{ job.region }}</span>
+                                                    <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>{{ job.job_for }}</span>
+                                                    <span class="text-truncate me-3"><i class="fa fa-hourglass-end text-primary me-2"></i>{{ job.deadline.date }}</span><br>
+                                                </div>
+                                                </div>
+                                            </a>
+                                            </div>
+                                            <hr>    </div>
+                                    {% endif %}
+                                {% endfor %}
+                                 {% else %} 
+                            <h3>
+                            No job posting found...
+                            </h3>
+                                        {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Job Listings End -->
+    
+        </div>
+    </div>
+              </div>
+        </div>
+      </div>
+</div>
+
+
+ 
+        {% endblock  %}
+
+

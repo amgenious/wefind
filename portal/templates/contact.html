@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    
+
+
+
+        <!-- Header End -->
+        <div class="container-xxl py-5 bg-dark page-header mb-5">
+            <div class="container my-5 pt-5 pb-4">
+                <h1 class="display-3 text-white mb-3 animated slideInDown">Contact</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb text-uppercase">
+                        <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                        <li class="breadcrumb-item text-white active" aria-current="page">Contact</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <!-- Header End -->
+ 
+        {% for categories in categories %}
+        <option value="drivers">{{categories}}</option>
+          
+        {% endfor %}
+
+        <!-- Contact Start -->
+        <div class="container-xxl py-5">
+            <div class="container">
+                <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Contact For Any Query</h1>
+                <div class="row g-4">
+                    <div class="col-12">
+                        <div class="row gy-4">
+                            <div class="col-md-4 wow fadeIn" data-wow-delay="0.1s">
+                                <div class="d-flex align-items-center bg-light rounded p-4">
+                                    <div class="bg-white border rounded d-flex flex-shrink-0 align-items-center justify-content-center me-3" style="width: 45px; height: 45px;">
+                                        <i class="fa fa-map-marker-alt text-primary"></i>
+                                    </div>
+                                    <span>
+                                        Post Office Box 214, Sunyani</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 wow fadeIn" data-wow-delay="0.3s">
+                                <div class="d-flex align-items-center bg-light rounded p-4">
+                                    <div class="bg-white border rounded d-flex flex-shrink-0 align-items-center justify-content-center me-3" style="width: 45px; height: 45px;">
+                                        <i class="fa fa-envelope-open text-primary"></i>
+                                    </div>
+                                    <span><a href="mailto:wefind@gmail.com">wefind100@gmail.com</a></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 wow fadeIn" data-wow-delay="0.5s">
+                                <div class="d-flex align-items-center bg-light rounded p-4">
+                                    <div class="bg-white border rounded d-flex flex-shrink-0 align-items-center justify-content-center me-3" style="width: 45px; height: 45px;">
+                                        <i class="fa fa-phone-alt text-primary"></i>
+                                    </div>
+                                    <span>+233200039099</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+                    <div class="cons" style=" display: flex; justify-content: space-around;">
+
+                        <div style=" width: fit-content;"  class="col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d31656.963467411417!2d-2.329919660026143!3d7.340370133976797!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfdac92a170803d7%3A0x6b48d01bcca4224a!2sUniversity%20of%20Energy%20and%20Natural%20Resources!5e0!3m2!1sen!2sgh!4v1680694660054!5m2!1sen!2sgh" width="350" height="350" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="wow fadeInUp" style=" padding: 0; margin:0;" data-wow-delay="0.5s">
+                                <p class="mb-4">Or send us a message here.
+                                  </p>
+                                  <form method="post" style=" width: fit-content;">
+                                      {% csrf_token %}
+                                      <div class="row g-3">
+                                          <div class="col-md-6">
+                                              <div class="form-floating">
+                                            <label>Your Name</label>
+                                            <input type="text" name='name' class="form-control" id="name" placeholder="Your Name">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <label>Your Email</label>
+                                            <input type="email" name='email' class="form-control" id="email" placeholder="Your Email">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <input type="text" name='subject' class="form-control" id="subject" placeholder="Subject" style="width: 400px;">
+                                            <label for="subject">Subject</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <textarea class="form-control" name='message' placeholder="Leave a message here" id="message" style="height: 150px;width: 400px;"></textarea>
+                                            <label for="message">Message</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <button class="btn btn-primary w-100 py-3" type="submit">Send Message</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <!-- Contact End -->
+        
+        
+        {% endblock  %}

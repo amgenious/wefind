@@ -1,0 +1,583 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    
+
+
+        <!-- Header End -->
+        <div class="container-xxl py-5 bg-dark page-header mb-5">
+            <div class="container my-5 pt-5 pb-4">
+                <h1 class="display-6 text-white mb-3 animated slideInDown">Skill Individual Detail</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb text-uppercase">
+                        <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                        <li class="breadcrumb-item text-white active" aria-current="page">Job Detail</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <!-- Header End -->
+
+
+
+
+
+
+
+
+
+
+
+
+       
+       
+       
+        <!-- Job Detail Start -->
+        <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+            <div class="container">
+                <div class="row gy-5 gx-4">
+                    <div class="col-lg-8">
+                        <div class="d-flex align-items-center mb-5">
+                            <img class="flex-shrink-0 img-fluid border rounded" src="{% static 'images/com-logo-2.jpg' %}" alt="" style="width: 80px; height: 80px;">
+                            <div class="text-start ps-4">
+                                <h3 class="mb-3">{{company.name}}</h3>
+                                <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>{{company.location}}</span>
+                                <span class="text-truncate me-3"><i class="fa fa-user-alt text-primary me-2"></i>{{company.availability}}</span>
+                            </div>
+                        </div>
+
+                        <div class="mb-5">
+                            <h4 class="mb-3">Services</h4>
+                            <p>{{company.services}}</p>
+                            <h4 class="mb-3">Description</h4>
+                            <p>The job responsiblities are as follows:</p>
+                            <ul class="list-unstyled">
+                                <li><i class="fa fa-angle-right text-primary me-2"></i>{{company.description}}</li>
+                            </ul>
+                        </div>
+
+
+
+
+
+
+
+
+
+
+        
+                        <div class="" style="padding-left: 20px;">
+                            <h3 style="color:red; padding-bottom: 20px; ">Important Safety Tips</h3> 
+ <p>  Do not make any payment without confirming with the Wefind Customer Support Team.<br>
+If you think this advert is not genuine, please report it via the Report Job link below.</p>
+                            <h4 class="mb-4">Report this company</h4>
+    <div class="text-center" style="padding-left: 20px;">
+      {% if user.is_superuser or user.is_authenticated %}
+        <form method="post" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row g-3">
+                <div class="">
+                    <input type="text" name='name' class="form-control" placeholder="Your Name" required />
+                </div>
+                <div class="col-12">
+                    <input type="email" name='email_address' class="form-control" placeholder="Your Email" required />
+                </div>
+                <div class="col-12">
+                    <input type="number" name="contact" class="form-control" placeholder="Phone number" required />
+                </div>
+                <div class="col-12">
+                    <textarea name="comment" placeholder="Your reason" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-danger w-100" type="submit">Report</button>
+                </div>
+            </div>
+        </form>
+        {% else %}
+        <p  ><a href="{% url 'login' %}">Login</a> <span>OR</span> <a href="{% url 'sign_up' %}">Register</a> to report profile</p>
+        {% endif %}
+    </div>    
+  </form>
+
+                    </div>
+                </div>
+
+
+
+                    <div class="col-lg-4">
+                        <div class="bg-light rounded p-5 mb-4 wow slideInUp" data-wow-delay="0.1s">
+                            <h4 class="mb-4">Profile Summary</h4>
+{% if user.is_superuser or user.is_authenticated %}
+                            <p><i class="fa fa-angle-right text-primary me-2"></i>Phone number: {{company.phone_number}}</p>
+                            <p><i class="fa fa-angle-right text-primary me-2"></i>Location: {{company.location}}</p>
+                            <p><i class="fa fa-angle-right text-primary me-2"></i>Region: {{company.region}}</p>
+                            <p class="m-0"><i class="fa fa-angle-right text-primary me-2"></i>Email: <b>{{company.email}}</b></p>
+                            {% else %}
+                            <p  ><a href="{% url 'login' %}">Login</a> <span>OR</span> <a href="{% url 'sign_up' %}">Register</a> to view contact</p>
+                            {% endif %}
+    
+                        </div>
+                       
+                        
+                        <div class="container">
+                            <h5 style="padding:30px 0px 15px 0px; text-align: center;">Refer to a friend</h5>
+                            <div style="padding-left: 110px;">
+                            <a  href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank"><i style="font-size: 30px; color: blue;" class="fab fa-facebook fa-lg"></i></a>
+                            <a style="padding-left: 7px;" href="https://wa.me/?text={{ job.job_title }}%0A{{ request.build_absolute_uri }}" target="_blank"><i style="font-size: 30px;" class="fab fa-whatsapp fa-lg"></i></a>
+                            <a style="padding-left: 7px;" href="https://twitter.com/share?url={{ request.build_absolute_uri }}&text={{ job.job_title }}&hashtags=jobs,hiring" target="_blank" rel="noopener noreferrer">
+                             <i style="font-size: 30px; color:#2b5cd4" class="fab fa-twitter"></i></a>
+                            <a style="padding-left: 7px;" href="https://www.linkedin.com/shareArticle?url={{ request.build_absolute_uri }}&title={{ job.job_title }}&summary=&source=" target="_blank" rel="noopener noreferrer">
+                             <i style="font-size: 30px; color:blue" class="fab fa-linkedin"></i></a>
+
+
+                             {% if user.is_superuser or user.is_authenticated %}
+                            
+                        <div class="container">
+                        <form method="post">
+                        <h5 style=" padding: 70px 110px 0px 0px;">Add a Comment</h5>
+                          {% csrf_token %}
+                          {{ comment_form.as_p }}
+                          <button type="submit" style="width: 11rem;">Submit</button>
+                        </form>
+                     </div>
+                        </div>
+                     </div>
+                     {% else %}
+                     <p  style="padding-top: 90px;"><a href="{% url 'login' %}">Login</a> to comment</p>
+                     {% endif %}
+
+                    
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+                    
+             
+             {% if  company.email == user.email %}
+<button type="button" style="width: 14rem;" class="btn btn-primary" data-toggle="modal" data-target="#updateModal">
+    Update Company
+  </button>
+<a class="btn btn-danger" style="width: 10px 40px;" href="{% url 'delete' company.pk %}">Delete</a>
+{% endif %}
+
+  
+  <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content"  style="padding-left: 130px;">
+        <div class="modal-header">
+          <h5 class="modal-title" id="updateModalLabel">Update Company</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" enctype="multipart/form-data" id="update-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button style="width: 15rem;" type="submit" class="btn btn-primary">Save changes</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+
+  
+  <style>
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 20px;
+    }
+  
+    .image-grid img {
+      width: 100%;
+      height: 18rem;
+      cursor: pointer;
+    }
+  
+    #fullscreen-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 9999;
+    }
+  
+    #fullscreen-image {
+      display: block;
+      max-width: 100%;
+      max-height: 100%;
+      margin: 0 auto;
+      padding: 20px;
+    }
+  
+    .close-button {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      color: #fff;
+      font-size: 24px;
+      cursor: pointer;
+    }
+  </style>
+  
+<!-- Include Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+
+<!-- Include Leaflet CSS and JavaScript -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 style="padding: 70px 0px 0px 0px; text-align: center; color: crimson;">Sample work</h3>
+  <p style="text-align: center; padding-bottom: 50px; font-size: 15px;">Click to view it fully</p>
+  {% if user.is_authenticated and user == company.user or user.is_superuser %}
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ image_form.as_p }}
+    <button type="submit">Submit</button>
+  </form>
+  
+
+
+{% endif %}
+
+
+<div class="image-grid">
+  {% if company.multipleindimage_set.all %}
+    {% for image in company.multipleindimage_set.all %}
+      <img class="fullscreen-trigger" src="{{ image.images.url }}" alt="Company Image">
+    {% endfor %}
+  {% else %}
+    <p style="text-align: center; font-size: 24px; font-weight: 700;">No images found.</p>
+  {% endif %}
+</div>
+
+  
+  <div id="fullscreen-overlay">
+    <span class="close-button">&times;</span>
+    <img id="fullscreen-image" src="" alt="Fullsize Image">
+  </div>
+  
+  <script>
+    const overlay = document.getElementById('fullscreen-overlay');
+    const fullscreenImage = document.getElementById('fullscreen-image');
+    const closeButtons = document.querySelectorAll('.close-button');
+    const fullscreenTriggers = document.querySelectorAll('.fullscreen-trigger');
+  
+    fullscreenTriggers.forEach(function(trigger) {
+      trigger.addEventListener('click', function() {
+        const imageURL = this.getAttribute('src');
+        fullscreenImage.setAttribute('src', imageURL);
+        overlay.style.display = 'block';
+      });
+    });
+  
+    closeButtons.forEach(function(button) {
+      button.addEventListener('click', function() {
+        overlay.style.display = 'none';
+      });
+    });
+  </script>
+  
+  
+
+
+
+
+
+
+
+
+
+<style>
+    .form-control{
+        width:340px
+    }
+</style>
+
+
+
+ <div class="container" style="padding: 0px 50px;">
+          <h4 style="text-align: center; padding-bottom: 20px;padding-top: 60px; color: crimson">Comments</h4>
+          <div class="row">
+              {% for comments in comments%}
+                  <div class="comment">
+                      <div class="comment-header">
+                          <div class="user-image">
+                              <i style="padding: 3px 0px 0px 6px;" class="fa fa-user fa-2x"></i>
+                          </div>
+                          <div class="user-info">
+                              <h4 class="user-name">{{ comments.name }}</h4>
+                              <p class="comment-date">{{ comments.email }}</p>
+                              <p class="comment-date">Commented on {{ comments.created.date }}</p>
+                          </div>
+                      </div>
+                      <div class="comment-body">
+                          <p class="comment-text">{{ comments.body }}</p>
+                          <div class="comment-actions">
+                          </div>
+                      </div>
+                  </div>
+              {% empty %}
+                  <p style="padding-left: 93px;">No comments available.</p>
+              {% endfor %}
+          </div>
+      </div>
+      
+          
+
+<style>
+    .comment-container {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      
+      .comment {
+        width: 48%;
+        margin-right: 2%;
+        margin-bottom: 20px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 10px;
+      
+        &:last-child {
+          margin-right: 0;
+        }
+      
+        .comment-header {
+          display: flex;
+          align-items: center;
+          margin-bottom: 10px;
+      
+          .user-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #ccc;
+            margin-right: 10px;
+          }
+      
+          .user-info {
+            .user-name {
+              margin: 0;
+              font-size: 16px;
+              font-weight: bold;
+            }
+      
+            .comment-date {
+              margin: 0;
+              font-size: 14px;
+              color: #999;
+            }
+          }
+        }
+      
+        .comment-body {
+          margin-bottom: 10px;
+      
+          .comment-text {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.4;
+          }
+      
+          .comment-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+      
+            button {
+              border: none;
+              background-color: transparent;
+              cursor: pointer;
+              font-size: 14px;
+              color: #999;
+      
+              &:hover {
+                color: #333;
+              }
+            }
+          }
+        }
+      }
+      
+</style>
+
+
+
+
+
+
+<div class="container">
+    <!-- Existing content... -->
+
+    {% if user.is_authenticated %}
+        <div class="rating-container">
+            {% if not user_already_rated %}
+                <form id="rating-form" method="post" action="{% url 'skilled_individual_details' company.id %}">
+                    {% csrf_token %}
+                    <div class="rating">
+                        <div class="rating-stars">
+                            <i class="fas fa-star" data-rating="1"></i>
+                            <i class="fas fa-star" data-rating="2"></i>
+                            <i class="fas fa-star" data-rating="3"></i>
+                            <i class="fas fa-star" data-rating="4"></i>
+                            <i class="fas fa-star" data-rating="5"></i>
+                            <input type="hidden" name="rating" value="0" id="selected-rating">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Rate</button>
+                </form>
+            {% else %}
+                <p class="text-center">You have already rated this individual.</p>
+            {% endif %}
+        </div>
+    {% else %}
+        <p class="text-center">You need to be logged in to rate.</p>
+    {% endif %}
+
+<div class="ratings-list" style="padding-bottom: 40px">
+    <h3 class="text-center">Ratings:</h3>
+    <div class="row">
+        {% for rating in ratings %}
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <p><i style="padding-left:7px" class="fa fa-user"></i> <span style="padding-left:7px">{{ rating.user.username }}</span>
+                {% if rating.rating >= 1 %}
+                    <i class="fa fa-star" style="color: gold;"></i>
+                {% else %}
+                    <i class="fa fa-star" style="color: #ccc;"></i>
+                {% endif %}
+
+                {% if rating.rating >= 2 %}
+                    <i class="fa fa-star" style="color: gold;"></i>
+                {% else %}
+                    <i class="fa fa-star" style="color: #ccc;"></i>
+                {% endif %}
+
+                {% if rating.rating >= 3 %}
+                    <i class="fa fa-star" style="color: gold;"></i>
+                {% else %}
+                    <i class="fa fa-star" style="color: #ccc;"></i>
+                {% endif %}
+
+                {% if rating.rating >= 4 %}
+                    <i class="fa fa-star" style="color: gold;"></i>
+                {% else %}
+                    <i class="fa fa-star" style="color: #ccc;"></i>
+                {% endif %}
+
+                {% if rating.rating >= 5 %}
+                    <i class="fa fa-star" style="color: gold;"></i>
+                {% else %}
+                    <i class="fa fa-star" style="color: #ccc;"></i>
+                {% endif %}
+            </p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+</div>
+
+
+
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const stars = document.querySelectorAll('.rating-stars i');
+    const selectedRating = document.getElementById('selected-rating');
+
+    stars.forEach(star => {
+        star.addEventListener('click', function () {
+            const ratingValue = this.getAttribute('data-rating');
+            selectedRating.value = ratingValue;
+
+            // Highlight stars from left to right up to the selected star
+            stars.forEach(s => {
+                const sRating = s.getAttribute('data-rating');
+                if (sRating <= ratingValue) {
+                    s.classList.add('selected');
+                } else {
+                    s.classList.remove('selected');
+                }
+            });
+        });
+    });
+});
+</script>
+
+<style>
+.selected {
+    color: gold; 
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="map-container">
+    {% if job_map %}
+        {{ job_map | safe }}  <!-- Use the "safe" filter to render the HTML -->
+    {% else %}
+        <p style="text-align: center;">No location information available for this skilled individual.</p>
+    {% endif %}
+</div>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        {% endblock  %}

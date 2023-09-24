@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script> -->
+
+
+
+
+<div class=" ">
+  <div class="">
+    <!-- <p>Logins</p> -->
+    111
+{% for messages in messages %}
+{{messages}}
+{% endfor %}
+
+
+
+    <!-- <form method="post" action="" style="border: 2px solid green;">
+      {% csrf_token %}
+      <div class="form-group" style="width:400px;">
+        <label for="{{ form.username.id_for_label }}">Username</label>
+        <input type="text" class=" bg-transparent" id="{{ form.username.auto_id }}" name="{{ form.username.html_name }}" required>
+      </div>
+      <div class="form-group">
+        <label for="{{ form.password.id_for_label }}">Password</label>
+        <input type="password" class="form-control bg-transparent w-100 py-3 ps-4 pe-5" id="{{ form.password.auto_id }}" name="{{ form.password.html_name }}" required>
+      </div>
+      <button type="submit" class="btn btn-primary ">Login</button>
+      <div class="external-links" style="padding-top: 10px;">
+        <p>Forgot password? <a href="{% url 'password_reset' %}">Reset Password</a></p>
+        <p>Don't have an account? <a href="{% url 'sign_up' %}">SignUp</a></p>
+      </div>
+    </form> -->
+  </div>
+</div>
+
+{% endblock %}

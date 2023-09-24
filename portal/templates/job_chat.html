@@ -1,0 +1,23 @@
+<!-- job_chat.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Chat for Job Post: {{ job_post.job_title }}</h1>
+    
+    <div class="chat-messages">
+        <ul>
+            {% for message in chat_messages %}
+                <li>
+                    <strong>{{ message.user.username }}</strong> ({{ message.timestamp }}): {{ message.message }}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="chat-form">
+        <form method="post">
+            {% csrf_token %}
+            {{ chat_form.as_p }}
+            <button type="submit">Send</button>
+        </form>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% if user.email in m_emails %}
+
+
+
+<div class="container" style="padding-top: 40px; padding-bottom: 110px;">
+    <h3 style="padding-bottom: 26px; text-align: center;">All Applicants</h3>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Job Title</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Number</th>
+                <th>CV</th>
+                <th>Information</th>
+            </tr>
+        </thead>
+        <tbody>
+
+
+            
+         
+                
+
+           
+            {% for applicant in applicants %}
+            <tr>
+                <td>{{ applicant.job.job_title }}</td>
+                <td>{{ applicant.name }}</td>
+                <td>
+                    <a href="mailto:{{ applicant.email }}?subject=Regarding your job application&body=Dear {{ application.name }},%0D%0A%0D%0AThank you for your interest in our job opening. We have received your application and will be reviewing it shortly.%0D%0A%0D%0ABest regards,%0D%0A{{ request.user.username }}" target="_blank">Send Email</a>
+                </td>
+                <td>{{ applicant.number }}</td>
+                <td><a href="{{ applicant.cv.url }}">View CV</a></td>
+                <td>{{ applicant.information }}</td>
+            </tr>
+            {% endfor %}
+           
+        </tbody>
+    </table>
+</div>
+
+
+{% else %}
+<h3 style="text-align: center; padding: 178px;">
+    Proceed to pay to view applicants  <a href="{% url 'initiate-payment' %}">Payment</a>
+</h3>
+
+{% endif %}
+{% endblock %}

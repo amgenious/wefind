@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% if user.is_employee or user.is_superuser %}
+
+        <!-- Header End -->
+        <div class="container-xxl py-5 bg-dark page-header mb-5">
+            <div class="container my-5 pt-5 pb-4">
+                <h1 class="display-3 text-white mb-3 animated slideInDown">Employer Platform</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb text-uppercase">
+                        <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                        <li class="breadcrumb-item text-white active" aria-current="page">Portal</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <!-- Header End -->
+
+
+        <div class="container">
+            <div class="row">
+              <div class="col-sm">
+              <a href="{% url 'map' %}"><div class="card bg-dark text-white">
+                <img class="card-img" src="{% static 'images/download.png' %}" alt="Card image">
+                    <div class="card-img-overlay">
+                      <h3 style="color: aliceblue;" class="card-title">Search a job via map search</h3>
+                    </div></a>
+                  </div>
+        
+              </div>
+              <div class="col-sm">
+                <a href="{% url 'job_list' %} "> <div class="card bg-dark text-white">
+                <img class="card-img" src="{% static 'images/download job.jpeg' %}" alt="Card image">
+                    <div class="card-img-overlay">
+                      <h3 style="color: aliceblue;" class="card-title">Search job via form search</h3>
+                    </div></a>
+                  </div>
+        
+              </div>
+              <div class="col-sm">
+                <a href="{% url 'profile' %}"><div class="card bg-dark text-white">
+                <img class="card-img" src="{% static 'images/download.png' %}" alt="Card image">
+                    <div class="card-img-overlay">
+                      <h3 style="color: aliceblue;" class="card-title">Profile</h3>
+                    </div></a>
+                  </div>
+        
+              </div>
+            </div>
+          </div>
+
+{% else %}
+<h4 style="padding: 190px 0px; text-align: center;">You cant be here you are not an employee</h4>
+
+
+{% endif %}
+  
+
+{% endblock %}

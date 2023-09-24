@@ -1,0 +1,331 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>    
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12" style="text-align: center; padding: 10px;">
+                    <em>WeFind is an NGO that seeks to bring recognition to the informal sector. Through it's online job listing.</em>
+                </div>
+            </div>
+        </div>
+  
+
+<!-- Carousel Start -->
+<div class="container-fluid p-0">
+    <div class="owl-carousel header-carousel position-relative">
+        <!-- First Carousel Item -->
+        <div class="owl-carousel-item position-relative">
+            <img class="img-fluid" src="{% static 'images/carousel-1.jpg' %}" alt="">
+            <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(43, 57, 64, .5);">
+                <div class="container">
+                    <div class="row justify-content-start">
+                        <div class="col-10 col-lg-8">
+                            <h1 class="display-3 text-white animated slideInDown mb-4">{{ job_post.job_title }}</h1>
+                            <p class="fs-5 fw-medium text-white mb-4 pb-2"><i class="fa fa-map-marker-alt"> <span style="margin-left: 8px" >{{ job_post.location }}</span></i> <i style="margin-left: 8px" class="fa fa-map-marker-alt"> <span style="margin-left: 5px" >{{ job_post.region }}</span></i></p>
+                            <a href="{% url 'job_detail' job_post.pk %}" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">View Details</a>
+                            <a href="{% url 'skilled_individual' %}" class="btn btn-secondary py-md-3 px-md-5 animated slideInRight">Find A Talent</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Second Carousel Item -->
+        <div class="owl-carousel-item position-relative">
+            <img class="img-fluid" src="{% static 'images/carousel-2.jpg' %}" alt="">
+            <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(43, 57, 64, .5);">
+                <div class="container">
+                    <div class="row justify-content-start">
+                        <div class="col-10 col-lg-8">
+                            <h1 class="display-3 text-white animated slideInDown mb-4">{{ skilled_individuals_lists.name }}</h1>
+                            <p class="fs-5 fw-medium text-white mb-4 pb-2">{{ skilled_individuals_lists.description }}</p>
+                            <a href="{% url 'job_detail' skilled_individuals_lists.pk %}" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">View Details</a>
+                            <a href="{% url 'skilled_company' %}" class="btn btn-secondary py-md-3 px-md-5 animated slideInRight">Find A Company</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Carousel End -->
+
+<!-- Category Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <h2 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Check Our Category</h2>
+        <div class="row g-4">
+            {% for category in categories %}
+            <div class="col-lg-2 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+              <a class="cat-item rounded p-4" href="{% url 'category_view' category.id %}">
+                <h6 style="text-align: center;" class="mb-3">{{ category.name }} <span style="color: red;font-size: 19px;"> ({{ category.total_jobs }}) </span></h6>
+              </a>
+            </div>
+          {% endfor %}
+            <div class="text-center"> 
+                <a style="font-weight: 800" href="{% url 'category' %}" style="text-align:center;">View all Category</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="container fadeInUp vcc" data-wow-delay="0.1s">
+     <h2 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">
+        {% if user.is_authenticated %}
+            Posted Jobs in {{ request.user.region }} Region
+        {% else %}
+            Posted Jobs
+        {% endif %}
+    </h2>
+    <div class="row">
+        {% if job_posted %}
+            {% for job in job_posted %}
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <a href="{% url 'job_detail' post_id=job.pk %}">
+                        <div class="card" style="height: 24rem;">
+                            <img style='height: 10rem' class="card-img-top" src="{{ job.company_image.url }}" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ job.job_title }}</h5>
+                                <p class="card-text">Location: {{ job.location }}</p>
+                                <p class="card-text">Region: {{ job.region }}</p>
+                                <p class="card-text">Deadline: {{ job.deadline.date }}</p>
+                                {% if user.is_superuser %}
+                                 <p class="card-text">
+                                    <i class="fa fa-eye"></i> {{ job.view_count }}
+                                </p>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No jobs available for your location. Here are the first four fresh posted jobs:</p>
+            {% for job in job_posts %}
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <a href="{% url 'job_detail' post_id=job.pk %}">
+                        <div class="card">
+                            <img style='height: 10rem' class="card-img-top" src="{{ job.company_image.url }}" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ job.job_title }}</h5>
+                                <p class="card-text">Location: {{ job.location }}</p>
+                                <p class="card-text">Region: {{ job.region }}</p>
+                                <p class="card-text">Deadline: {{ job.deadline.date }}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="text-center" style="padding-top: 20px;">
+        <a style="font-weight: 800" href="{% url 'job_list' %}">View all vacancies</a>
+    </div>
+</div>
+
+
+
+<div id="asas" class="container asas" style="padding: 60px 10px 40px 10px;">
+    <h2 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Highly Rated Skilled Individuals</h2>
+    <div class="row">
+        {% if highly_rated_individuals %}
+            {% for individual in highly_rated_individuals %}
+            {% if individual.approved %}
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <a href="{% url 'skilled_individual_details' individual.pk %}">
+                    <div class="card">
+                        {% if individual.sex == 'Male' %}
+                            <img class="flex-shrink-0 img-fluid border rounded" style="height: 14rem;" src="{% static 'images/97.png' %}" alt="">
+                        {% else %}
+                            <img class="flex-shrink-0 img-fluid border rounded" style="height: 14rem;" src="{% static 'images/b.jpg' %}" alt="">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ individual.name }}</h5>
+                            <p class="card-text">Location: {{ individual.region }}</p>
+                            {% if user.is_authenticated or user.is_superuser %}
+                            <p class="card-text">Phone Number: {{ individual.phone_number }}</p>
+                            {% endif %}
+                            <p class="card-text {% if individual.availability == 'Busy' %}text-red{% else %}text-green{% endif %}">
+                                Availability: {{ individual.availability }}
+                            </p>
+                            {% if user.is_superuser %}
+                            <p class="card-text">Total Rating: {{ individual.avg_rating|default:"N/A" }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </a>
+            </div>
+        {% endif %}
+            {% endfor %}
+        {% else %}
+            {% for job in job_posted %}
+            {% if job.approved %}
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <a href="{% url 'job_detail' post_id=job.pk %}">
+                    <div class="card">
+                        <img class="card-img-top" src="{{ job.company_image.url }}" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ job.job_title }}</h5>
+                            <p class="card-text">Location: {{ job.location }}</p>
+                            <p class="card-text">Region: {{ job.region }}</p>
+                            <p class="card-text">Deadline: {{ job.deadline.date }}</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="text-center" style="padding-top: 20px;">
+        <a style="font-weight: 800" href="{% url 'skilled_individual' %}">View all highly rated individuals</a>
+    </div>
+</div>
+
+<style>
+    @media only screen and (min-width: 1422px) and (max-width: 3700px) {
+        #asas {
+          padding: 60px 80px !important;
+        }
+        .vcc{
+            padding: 60px 30px;
+        }
+      }
+      .text-red {
+    color: red;
+}
+
+.text-green {
+    color: green;
+}
+</style>
+
+
+
+
+<div id="asas" class="container asas" style="padding: 60px 10px 40px 10px;">
+    <h2 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Companies Profiles</h2>
+    <div class="row">
+        {% for company in highly_rated_companies %}
+            {% if company.approved %}
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <a href="{% url 'skilled_company_details' company.id %}">
+                <div class="card">
+                    <img class="flex-shrink-0 img-fluid border rounded" style="height: 14rem;" src="{{ company.logo.url }}" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ company.name }}</h5>
+                        <p class="card-text">Location: {{ company.location }}</p>
+                        <p class="card-text">Region: {{ company.region }}</p>
+                        <p class="card-text">Availability: {{ company.get_availability_display }}</p>
+                         {% if user.is_superuser %}
+                            <p class="card-text">Average Rating: {{ company.avg_rating|default:"N/A" }}</p>
+                            {% endif %}
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+    <div class="text-center" style="padding-top: 20px;">
+        <a style="font-weight: 800" href="{% url 'skilled_company' %}">View all company's profiles</a>
+    </div>
+</div>
+
+
+        <!-- About Start -->
+        <div class="container-xxl py-5">
+            <div class="container">
+                <div class="row g-5 align-items-center">
+                    <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
+                        <div class="row g-0 about-bg rounded overflow-hidden">
+                            <div class="col-6 text-start">
+                                <img class="img-fluid w-100" src="{% static 'images/about-1.jpg' %}">
+                            </div>
+                            <div class="col-6 text-start">
+                                <img class="img-fluid w-100" src="{% static 'images/about-2.jpg' %}">
+                            </div>
+                            <div class="col-6 text-end">
+                                <img class="img-fluid w-100" src="{% static 'images/about-3.jpg' %}">
+                            </div>
+                            <div class="col-6 text-end">
+                                <img class="img-fluid w-100" src="{% static 'images/about-4.jpg' %}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+                        <h1 class="mb-4">We Help To Get The Best Job And Find A Talent</h1>
+                        <p class="mb-4">We aim to help our clients job a satisfactory work done by our professionals.</p>
+                        <p><i class="fa fa-check text-primary me-3"></i>Quick Response Time</p>
+                        <p><i class="fa fa-check text-primary me-3"></i>Reliable Professionals to depend</p>
+                        <p><i class="fa fa-check text-primary me-3"></i>Satisfactory Work done</p>
+                        <a class="btn btn-primary py-3 px-5 mt-3" href="{% url 'about' %}">Read More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- About End -->
+
+
+     
+
+        <!-- Testimonial Start -->
+        <div class="container-xxl py-5 wow ">
+            <div class="container">
+                <h1 class="text-center mb-5">Our Clients Say!!!</h1>
+                <div class="owl-carousel testimonial-carousel">
+                    <div class="testimonial-item bg-light rounded p-4">
+                        <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
+                        <p>Wow they really made my day, when they quickly finished my work for me.</p>
+                        <div class="d-flex align-items-center">
+                            <img class="img-fluid flex-shrink-0 rounded" src="{% static 'images/testimonial-1.jpg'%}" style="width: 50px; height: 50px;">
+                            <div class="ps-3">
+                                <h5 class="mb-1">Malcom Eva</h5>
+                                <small>Resident at Fiapre</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-item bg-light rounded p-4">
+                        <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
+                        <p>Their quick response time is top notch</p>
+                        <div class="d-flex align-items-center">
+                            <img class="img-fluid flex-shrink-0 rounded" src="{% static 'images/testimonial-2.jpg'%}" style="width: 50px; height: 50px;">
+                            <div class="ps-3">
+                                <h5 class="mb-1">Bob Stone</h5>
+                                <small>Teacher</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-item bg-light rounded p-4">
+                        <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
+                        <p>Thank WeFind for making me to get my first job as a house keeper.</p>
+                        <div class="d-flex align-items-center">
+                        <img class="img-fluid flex-shrink-0 rounded" src="{% static 'images/testimonial-3.jpg'%}" style="width: 50px; height: 50px;">
+                            <div class="ps-3">
+                                <h5 class="mb-1">John Doe</h5>
+                                <small>House Keeper</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-item bg-light rounded p-4">
+                        <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
+                        <p>Thanks WeFind for this wonderful initiative</p>
+                        <div class="d-flex align-items-center">
+                            <img class="img-fluid flex-shrink-0 rounded" src="{% static 'images/testimonial-4.jpg'%}" style="width: 50px; height: 50px;">
+                            <div class="ps-3">
+                                <h5 class="mb-1">Gloria</h5>
+                                <small>Nanny</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% comment %} <script src="{% static 'js/main.js' %}"></script>  {% endcomment %}
+{% endblock  %}
+      

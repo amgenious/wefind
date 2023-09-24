@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    
+
+
+        <!-- Header End -->
+        <div class="container-xxl py-5 bg-dark page-header mb-5">
+            <div class="container my-5 pt-5 pb-4">
+                <h1 class="display-3 text-white mb-3 animated slideInDown">Job Detail</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb text-uppercase">
+                        <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                        <li class="breadcrumb-item text-white active" aria-current="page">Job Detail</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <!-- Header End -->
+
+{% if user.is_superuser%}
+<p class="card-text">
+    <i class="fa fa-eye"></i> {{ view_count }}
+</p>
+{% endif %}
+
+
+
+        <!-- Job Detail Start -->
+        <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+            <div class="container">
+                <div class="row gy-5 gx-4">
+                    <div class="col-lg-8">
+                        <div class="d-flex align-items-center mb-5">
+                            <img class="flex-shrink-0 img-fluid border rounded" src="{% static 'images/com-logo-2.jpg' %}" alt="" style="width: 80px; height: 80px;">
+                            <div class="text-start ps-4">
+                                <h3 class="mb-3">{{job.job_title}}</h3>
+                                <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>{{job.location}}</span>
+                            </div>
+                        </div>
+
+                        <div class="mb-5">
+                            <h4 class="mb-3">Job description</h4>
+                            <p>{{job.job_description|safe}}</p>
+                            <h4 class="mb-3">Responsibility</h4>
+                            <p>The job responsiblities are as follows:</p>
+                            <ul class="list-unstyled">
+                                <li><i class="fa fa-angle-right text-primary me-2"></i>{{job.responsibilities|safe}}</li>
+                            </ul>
+                            <h4 class="mb-3">Qualifications</h4>
+                            <p>Applicant must meet these qualifications before applying to the job</p>
+                            <ul class="list-unstyled">
+                                <li><i class="fa fa-angle-right text-primary me-2"></i>{{job.qualifications|safe}}</li>
+                            </ul>
+                        </div>
+
+
+
+        
+                        <div class=""  style=" display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                            <h4 class="mb-4">Apply For The Job</h4>
+                             <form method="post" enctype="multipart/form-data" style=" width: 350px;">
+        {% csrf_token %}
+        {{ apply_form.as_p }}
+        <button type="submit" class="btn btn-primary">Submit </button>
+    </form>
+                    </div>
+                </div>
+
+
+
+                    <div class="col-lg-4">
+                        <div class="bg-light rounded p-5 mb-4 wow slideInUp" data-wow-delay="0.1s">
+                            <h4 class="mb-4">Job Summary</h4>
+                            <p><i class="fa fa-angle-right text-primary me-2"></i>Published On: {{job.post_date.date}}</p>
+                            <p><i class="fa fa-angle-right text-primary me-2"></i>Location: {{job.location}}</p>
+                            <p class="m-0"><i class="fa fa-angle-right text-primary me-2"></i>Date Line: <b>{{job.deadline.date}}</b></p>
+                        </div>
+                        <div class="bg-light rounded p-5 wow slideInUp" data-wow-delay="0.1s">
+                            <h4 class="mb-4">Company Detail</h4>
+                            {% if user.is_authenticated or superuser %}
+                            <p class="m-0" style="padding-bottom: 6px"> <b><b>Company name: </b>{{obj.company_name}}</p> 
+                            <p class="m-0" style="padding-bottom: 6px"> <b>Address:</b> {{job.company_address}}</p>
+                            <p class="m-0" style="padding-bottom: 6px"> <b>Email:</b> {{job.company_email}}</p>
+                            {% else %}
+                            <p ><a href="{% url 'login' %}">Login</a> <span>OR</span> <a href="{% url 'sign_up' %}">Register</a> to view details</p>
+                            {% endif %}
+
+                        </div>
+                        <div class="container">
+                            <h5 style="padding:30px 0px 15px 0px; text-align: center;">Share this post</h5>
+                            <div style="padding-left: 110px;">
+                            <a  href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank"><i style="font-size: 30px; color: blue;" class="fab fa-facebook fa-lg"></i></a>
+                            <a style="padding-left: 7px;" href="https://wa.me/?text={{ job.job_title }}%0A{{ request.build_absolute_uri }}" target="_blank"><i style="font-size: 30px;" class="fab fa-whatsapp fa-lg"></i></a>
+                            <a style="padding-left: 7px;" href="https://twitter.com/share?url={{ request.build_absolute_uri }}&text={{ job.job_title }}&hashtags=jobs,hiring" target="_blank" rel="noopener noreferrer">
+                             <i style="font-size: 30px; color:#2b5cd4" class="fab fa-twitter"></i></a>
+                            <a style="padding-left: 7px;" href="https://www.linkedin.com/shareArticle?url={{ request.build_absolute_uri }}&title={{ job.job_title }}&summary=&source=" target="_blank" rel="noopener noreferrer">
+                             <i style="font-size: 30px; color:blue" class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div> 
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Job Detail End -->
+<div class="container">
+    
+<h3 style="text-align: center;padding-bottom: 20px;">Important Safety Tips</h3> 
+ <p style="padding: 0px 90px 20px 90px;">  Do not make any payment without confirming with the Wefind Customer Support Team.
+If you think this advert is not genuine, please report it via the Report Job link below.</p>
+
+
+
+
+<div class="container sda">
+    <!-- ... Existing job details ... -->
+
+    {% if user.is_authenticated %}
+    <h3 style="text-align: center;">Report This Job</h3>
+     <form method="post" enctype="multipart/form-data" style="width: 350px;">
+        {% csrf_token %}
+        <input>{{ report_form.as_p }}</input>
+        <button type="submit" class="btn btn-primary">Submit Report</button>
+    </form>
+    {% endif %}
+</div>
+
+
+ <div id="mapid">{{ map_html|safe }}</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+  
+
+
+
+
+ {% if job_map %}
+                    <div class="job-map container">
+                        {{ job_map|safe }}
+                    </div>
+                {% else %}
+                    <p style="text-align: center;">Location not available.</p>
+                {% endif %}
+
+
+<h5 style="text-align: center; padding: 30px 0px;">Other Job post in {{job.region}} Region</h5>
+                <div class="row g-4">
+                {% for job in job_suggestions %}
+                <div class="col-lg-6">
+                <div class="row">
+                    <a  href="{% url 'job_detail' job.pk %}">     <div class="col-sm-12 col-md-12 d-flex align-items-center">
+                     <img id="tr" class="flex-shrink-0 img-fluid border rounded" src="{{ job.company_image.url }}" alt="" style="width: 80px; height: 80px;">
+                    <div class="text-start ps-4">
+                       <h5 class="mb-3">{{ job.job_title }}  
+                        </h5>
+                        <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>{{ job.location }}</span>
+                        <span class="text-truncate me-3"><i class="fa fa-directions text-primary me-2"></i>{{ job.region }}</span>
+                        <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>{{ job.job_for }}</span>
+                        <span class="text-truncate me-3"><i class="fa fa-hourglass-end text-primary me-2"></i>{{ job.deadline.date }}</span><br>
+                    </div>
+                    </div>
+                </a>
+                </div>
+                <hr>    </div>
+                {% endfor %}
+
+            </div>
+
+            <style>
+                /* @media only screen and (min-width: 373px) and (max-width: 380px) {
+                  .sda{
+                    width: 12rem;
+                    margin: 0px auto;
+                  }
+
+              } */
+
+              </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        {% endblock  %}
+
+

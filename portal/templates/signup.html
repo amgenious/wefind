@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+{% if messages %}
+{% for message in messages %}
+  <div class="alert {{ message.tags }}">
+    {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+{% endfor %}
+{% endif %}
+
+    
+
+
+        <!-- SignUP starts -->
+        <div style="margin-top: 100px; padding-bottom: 30px;">
+        <div class="" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                <h1>Sign Up</h1>
+                <form method="post" style=" width: 350px;">
+                  {% csrf_token %}
+                 {{form.as_p}}
+                  <button type="submit" class="btn btn-primary mt-3">Sign Up</button>
+              </form>
+        </div>
+    </div>
+    </div>
+
+    
+
+
+
+
+
+
+
+
+
+
+    <script>
+      $(document).ready(function () {
+          $('.select2').select2({
+              placeholder: 'Select a location',
+              allowClear: true
+          });
+      });
+  </script>
+  
+
+    {% endblock %}

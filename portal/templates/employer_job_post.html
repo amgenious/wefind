@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+        <!-- Header End -->
+        <div class="container-xxl py-5 bg-dark page-header mb-5">
+            <div class="container my-5 pt-5 pb-4">
+                <h3 class="display-6 text-white mb-3 animated slideInDown">Employer Posted Jobs</h3>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb text-uppercase">
+                        <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                        <li class="breadcrumb-item text-white active" aria-current="page">Portal</li>
+                    </ol>
+                    <p style="color: aliceblue;">Welcome <b>{{user}} </b></p>
+                </nav>
+            </div>
+        </div>
+        <!-- Header End -->
+
+
+      
+
+
+        <div class="container" style="padding: 20px 20px 40px 20px;">
+            <table class="table table-striped table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">Job title</th>
+                  <th scope="col">Post date</th>
+                  <th scope="col">Deadline</th>
+                  <th scope="col">Delete</th>
+                  <th scope="col">Update</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for job_post in job_posts %}
+                <tr>
+                  <td>{{ job_post.job_title }}</td>
+                  <td>{{ job_post.post_date.date }}</td>
+                  <td>{{ job_post.deadline.date }}</td>
+                  <td>
+                    <form method="POST" action="{% url 'employer_job_post' job_post.id %}">
+                      {% csrf_token %}
+                      <input type="hidden" name="job_post_id" value="{{ job_post.id }}">
+                      <button type="submit" name="delete" style="color: black; font-weight: 500;" >Delete</button>
+                    </form>
+                  </td>
+                  <td>
+                    <form method="POST" action="{% url 'update_job_post' job_post.id %}">
+                      {% csrf_token %}
+                      <input type="hidden" name="job_post_id" value="{{ job_post.id }}">
+                      <button type="submit" style="color: black; font-weight: 500;" name="update">Update</button>
+                    </form>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          
+
+
+
+
+
+
+{% endblock %}

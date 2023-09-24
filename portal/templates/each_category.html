@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+        <!-- Header End -->
+        <div class="container-xxl py-5 bg-dark page-header mb-5">
+            <div class="container my-5 pt-5 pb-4">
+                <h3 class="display-5 text-white mb-3 animated slideInDown">{{category.name}} Category</h3>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb text-uppercase">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item text-white active" aria-current="page">Category</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <!-- Header End -->
+
+
+        <form method="get" action=""  style="width: fit-content;">
+          <div class="row" style=" padding: 5px;">
+            <div class="col-md-6" style=" margin-bottom: 5px;">
+                <select class="form-control" name="region" id="region">
+                    <option value="">Select Region</option>
+                    {% for region_code, region_name in region_choices %}
+                        <option value="{{ region_code }}">{{ region_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6 mb-2">
+                <input class="form-control" type="text" name="location" id="location" placeholder="Enter location">
+            </div>
+            <div class="col-md-6">
+                <button style="color:white; background-color:green " type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
+    </div>
+
+      
+   
+        <div class="container">
+            <div class="row">
+              {% if posts %}
+                {% for post in posts %}
+                  <div class="col-md-6">
+                    <div class="job-item p-4 mb-4">
+                      <div class="row g-4">
+                        <div class="col-sm-12 col-md-8 d-flex align-items-center">
+                          <img class="flex-shrink-0 img-fluid border rounded" src="{{post.company_image.url}}" alt="" style="width: 80px; height: 80px;">
+                          <div class="text-start ps-4">
+                            <h5 class="mb-3">{{ post.job_title }}</h5>
+                            <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>{{ post.location }}</span>
+                            <span class="text-truncate me-3"><i class="fa fa-book text-primary me-2"></i>{{ post.region }}</span>
+                            <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>{{ post.job_for }}</span>
+                          </div>
+                        </div>
+                        <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
+                          <div class="d-flex mb-3">
+                            <a class="btn btn-primary" href="{% url 'job_detail' post.pk %}">Apply Now</a>
+                          </div>
+                          <small class="text-truncate"><i class="far fa-calendar-alt text-primary me-2"></i>Date Line: {{ post.deadline.date }}</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+              {% else %}
+                <div class="col">
+                  <h3 style="text-align: center;">Sorry! No Job post ........ </h3>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          {% if search_location and not posts %}
+          <div class="row">
+              <div class="col">
+                  <h3 style="text-align: center;">No Job posts found at location: {{ search_location }}</h3>
+              </div>
+          </div>
+      {% endif %}
+
+      {% if search_region and not posts %}
+          <div class="row">
+              <div class="col">
+                  <h3 style="text-align: center;">No Job posts found in region: {{ search_region }}</h3>
+              </div>
+          </div>
+      {% endif %}
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock  %}
+

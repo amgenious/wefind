@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Popular Searches</title>
+</head>
+<body>
+    <h1>Popular Searches</h1>
+    <ul>
+        {% for search in popular_searches %}
+            <li>{{ search.search_term }} - {{ search.search_count }} searches</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

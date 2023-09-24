@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}  
+  
+  <h3 class="text-center" style="padding:50px 0px 30px 0px ">Individual skilled profiles ratings</h3>
+
+<div class="container" style="padding-bottom:50px">
+      <table  class="table table-bordered table-hover table-striped">
+        <tr>
+            <th>Company</th>
+            <th>Total Rating Points</th>
+        </tr>
+        {% for company in companies %}
+        <tr>
+            <td>{{ company.name }}</td>
+            <td>{{ company.total_rating_points }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+
+{% endblock %}

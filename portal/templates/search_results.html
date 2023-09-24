@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+<div style="padding: 40px 0px 110px 0px">
+  
+    
+
+    {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <script>
+            setTimeout(function() {
+                document.querySelector('.alert').remove();
+            }, 5000); 
+        </script>
+    {% endfor %}
+{% endif %}
+
+
+
+
+
+{% if searched %}
+<h4 style="text-align: center;color: darkcyan;">
+You searched for <b> {{searched}} </b>
+</h4>
+
+
+<br><br>
+<div class="container">
+    
+    <div class="job-item p-4 mb-4">
+{% for job in jobbs %}
+        <div class="row g-4">
+          <div class="col-sm-12 col-md-8 d-flex align-items-center">
+            <img class="flex-shrink-0 img-fluid border rounded" src="{{ job.company_image.url }}" alt="" style="width: 80px; height: 80px;">
+            <div class="text-start ps-4">
+              <h5 class="mb-3">{{ job.job_title }}</h5>
+              <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>{{ job.location }}</span>
+              <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>{{ job.job_for }}</span>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
+            <div class="d-flex mb-3">
+              <a class="btn btn-primary" href="{% url 'job_detail' job.pk %}">Apply Now</a>
+            </div>
+            <small class="text-truncate"><i class="far fa-calendar-alt text-primary me-2"></i>Date Line: {{ job.deadline.date }}</small>
+          </div>
+        </div><hr>
+        {% endfor %}
+    </div>
+
+    
+{% else %}
+You forget to searched
+{% endif %}
+    
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+{% endblock  %}

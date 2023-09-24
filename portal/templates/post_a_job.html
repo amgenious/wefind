@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    
+<style>
+    .form-control {
+        width: 30rem !important;
+    }
+
+</style>
+
+
+{% if user.is_authenticated %}
+        <div class="container">
+            {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <script>
+                    setTimeout(function() {
+                        document.querySelector('.alert').remove();
+                    }, 5000); 
+                </script>
+            {% endfor %}
+        {% endif %}
+        
+            <div class="row">
+                <div class="col-md-12">
+                    <form class="post-a-job" method='POST' enctype="multipart/form-data">
+                        {% csrf_token %}
+ 
+                      <h3 style="padding-bottom: 30px;">Post a Job</h3>
+                      {{form.as_p}}
+                      {{form.media}}
+                        <button type="submit" class="btn btn-primary">Submit</button>
+
+                       
+                         {% comment %} 
+
+                        <div>
+                            <div class="input-field">
+                                <input name ='company_name' type="text" placeholder="company name" />
+                            </div>
+                            <div class="input-field">
+                                <textarea name='company_address' type="text"  rows="5" placeholder="company address"></textarea>
+                            </div>
+                            <div class="input-field">
+                                <input name ='company_email' type="email" placeholder="company email" />
+                            </div>
+                            <div class="input-field">
+                                <input name ='company_number' type="number" placeholder="company phone number" />
+                            </div>
+                            <div class="input-field">
+                                <input name ='job_title' type="text" placeholder="Job Title" />
+                            </div>
+                            <div class="input-field">
+                                <textarea name='job_description' type="text"  rows="5" placeholder="Job Description"></textarea>
+                            </div>
+                            <div class="input-field">
+                                <textarea name='responsibilities' type="text"  rows="5" placeholder="Responsibilities"></textarea>
+                            </div>
+                            <div class="input-field">
+                                <textarea name='qualifications' type="text"  rows="5" placeholder="Qualifications"></textarea>
+                            </div>
+                            
+                            <div class="input-field">
+                                <label>Time of Work</label>
+                                <select name='time'>
+                                    <option value="Morining">Morning</option>
+                                    <option value="Afternoon">Afternoon</option>
+                                    <option value="Evening">Evening</option>
+                                </select>
+                            </div>
+                            <div class="input-field">
+                                <input name='location' type="text" placeholder="Location" />
+                            </div>
+                            <div class="input-field">
+                                <label>Date</label>
+                                <input name='deadline' type="date" />
+                            </div>
+                            <div class="input-field">
+                                <label>Is the job for a company or home.</label>
+                                <select name='category'>
+                                 {% for cat in cat %}
+                                 <option selected>{{cat}}</option>
+                                 {% endfor %}
+                                </select>
+                              </div>
+                            <div class="input-field">
+                                <label>Is the job for a company or home.</label>
+                                <select name='job_for'>
+                                    {% for obj in obj %}
+                                    <option value="{{obj.id}}">{{obj.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <label for="exampleFormControlFile1">Company logo</label>
+                                <input name='company_image' type="file" class="form-control-file" id="exampleFormControlFile1">
+                              </div><br>
+                            <div>
+                                <button>Upload</button>
+                            </div>
+                        </div>
+                         {% endcomment %}
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Post a Job ends -->
+
+
+
+
+
+
+
+
+
+    
+{% else %}
+<p style="padding: 170px 0px 190px 0px; text-align: center; font-size: 20px; font-weight: 500">You are not authenticated. Login to post a job <a href="{% url 'login' %}">Login</a> ||  or || Sign up here <a href="{% url 'sign_up' %}">Sign Up</a></p>
+    
+    {% endif %}
+
+    {% endblock  %}
+
+
+
+    
